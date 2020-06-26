@@ -1,6 +1,8 @@
-<h4 align="center">
-  Application to clients and Barbers
-</h4>
+<h1 align="center">
+    <img src="https://camo.githubusercontent.com/ab9f94b1f47bf05fbf0f99d65a802f638cb38f21/68747470733a2f2f692e696d6775722e636f6d2f613334616f30782e706e67" width="100px" /><br>
+    <br>
+  Go Barber
+</h1>
 <p align="center">
   <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/robertokbr/GoBarber.svg">
 
@@ -18,3 +20,46 @@
   <a href="https://github.com/robertokbr/GoBarber/issues">
     <img alt="Repository issues" src="https://img.shields.io/github/issues/robertokbr/GoBarber.svg">
   </a>
+
+## 🏗 Architecture:
+
+### API: RESTfull
+### Architectural pattern: Data mapper pattern
+### DB Abstraction: Typeorm
+### Persistent data store: Postgres + Docker
+### Authentication: JWT
+
+## 🎈 Project Style
+* EditorConfig
+* Eslint -config-airbnb
+* Prettier
+
+## 🕹 Features
+* Create User
+* Create Session
+* Create Appointment
+* Get Appointments
+* Update Avatar 
+
+## 🔧 Other configs
+* Global Exception catch class
+
+
+## :information_source: How To Use
+
+To clone and run this application, you'll need [Git](https://git-scm.com), [Node.js v10.16][nodejs] or higher + [Yarn v1.13][yarn] or higher installed on your computer. From your command line:
+
+```bash
+# Clone this repository
+$ git clone https://github.com/robertokbr/Be-The-hero
+
+# Go into the repository
+$ cd Be-The-hero
+
+# Install dependencies
+$ yarn install
+
+# Run the app
+$ yarn start
+```
+---
