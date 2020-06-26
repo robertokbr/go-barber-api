@@ -20,21 +20,25 @@
   <a href="https://github.com/robertokbr/GoBarber/issues">
     <img alt="Repository issues" src="https://img.shields.io/github/issues/robertokbr/GoBarber.svg">
   </a>
+  
+
 
 ## 🏗 Architecture:
 
-### API: RESTfull
-### Architectural pattern: Data mapper pattern
-### DB Abstraction: Typeorm
-### Persistent data store: Postgres + Docker
-### Authentication: JWT
+* `API`: RESTfull
+* `Architectural pattern`: Data mapper pattern
+* `DB Abstraction`: Typeorm
+* `Persistent data store`: Postgres + Docker
+* `Authentication`: JWT
 
 ## 🎈 Project Style
+
 * EditorConfig
 * Eslint -config-airbnb
 * Prettier
 
 ## 🕹 Features
+
 * Create User
 * Create Session
 * Create Appointment
@@ -42,6 +46,7 @@
 * Update Avatar 
 
 ## 🔧 Other configs
+
 * Global Exception catch class
 
 
