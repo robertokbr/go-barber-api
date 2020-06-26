@@ -56,15 +56,15 @@ To clone and run this application, you'll need [Git](https://git-scm.com), [Node
 
 ```bash
 # Clone this repository
-$ git clone https://github.com/robertokbr/Be-The-hero
+$ git clone https://github.com/robertokbr/GoBarber
 
 # Go into the repository
-$ cd Be-The-hero
+$ cd GoBarber
 
 # Install dependencies
 $ yarn install
 
 # Run the app
-$ yarn start
+$ yarn dev:server
 ```
 ---
