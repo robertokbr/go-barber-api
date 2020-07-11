@@ -24,7 +24,7 @@
 # 🚧 In progress
 
 ## 🏗 Architecture:
-
+* `Runtime`: Node.JS with TypeScript 
 * `API`: RESTfull
 * `Architectural pattern`: Data mapper pattern
 * `DB Abstraction`: Typeorm
