@@ -23,6 +23,18 @@
   
 # 🚧 In progress
 
+## 🕹 Features
+
+* Create User
+* Create Session by E-mail and Password, and get a JWT token
+* Use Authenticated Routes
+* Create Appointments with User -> Appointments relation one to many
+* Get Appointments
+* Upload Avatar
+* Update Avatar 
+* ...🔧
+
+
 ## 🏗 Architecture:
 * `Runtime`: Node.JS with TypeScript 
 * `API`: RESTfull
@@ -36,16 +48,6 @@
 * EditorConfig
 * Eslint -config-airbnb
 * Prettier
-
-## 🕹 Features
-
-* Create User
-* Create Session by E-mail and Password and get a JWT token
-* Use Authenticated Routes
-* Create Appointments with ( User->Appointments ) relation one to many
-* Get Appointments
-* Upload Avatar
-* Update Avatar 
 
 ## 🔧 Other configs
 
