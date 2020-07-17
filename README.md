@@ -70,7 +70,7 @@ $ yarn
 ```
 ---
 
-## How to Run Postgres at Docker
+## How to Run Postgres Database at Docker
 
 * [Install Docker](https://www.notion.so/Instalando-Docker-6290d9994b0b4555a153576a1d97bee2)
 
@@ -80,16 +80,15 @@ $ docker run --name gostack_postgres -e POSTGRES_PASSWORD=docker -p 5432:54
 32 -d postgres
 ```
 * [Install Dbeaver](https://www.notion.so/MODULO-2-643fa9a4a8424fffa0602a07dad33646#134f91737d9e4216bf5d085c5a0c6121) - an ultimate Universal client which incorporates RDBMS and NoSQL Databases.
-* Create a postgres Database called "postgres"
+* Create a postgres Database called "postgres", and config to localhost
 
 ## Docker Alternative
-* ``OBS``: If you dont wanna run the database at Docker, I recommend you to change the database to Sqlite3, for this you have to:
+* ``OBS``: If you dont wanna run the database at Docker, and you preferer a simple alternative  I recommend you to change the database to Sqlite3, for this you have to:
 ```bash
 # Install Sqlite3
 $ yarn add sqlite3 
-
-# Copy and paste it in the ormConfig.json:
 ```
+* Copy and paste it in the ormConfig.json:
 ```
 {
   "name": "default",
