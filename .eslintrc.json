@@ -28,19 +28,21 @@
     "@typescript-eslint"
   ],
   "rules": {
+    "no-console":"off",
     "prettier/prettier":"error",
     "class-methods-use-this": "off",
     "@typescript-eslint/camelcase": "off",
     "@typescript-eslint/no-unused-vars": ["error", {
       "argsIgnorePattern": "_"
-    }],
-    "import/extensions": [
-      "error",
-      "ignorePackages",
-      {
-        "ts": "never"
-      }
-    ]
-  }
+      }],
+      "@typescript-eslint/interface-name-prefix": [ "error", {"prefixWithI":"always"}],
+      "import/extensions": [
+        "error",
+        "ignorePackages",
+        {
+          "ts": "never"
+        }
+      ]
+    }
 
-}
+  }

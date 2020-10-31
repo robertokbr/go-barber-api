@@ -6,4 +6,4 @@ build/
 
 tmp/*
 !tmp/.gitkeep
-
+debug.log
