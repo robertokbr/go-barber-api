@@ -1,9 +1,10 @@
-import { compare } from 'bcryptjs';
+import 'reflect-metadata';
 import { sign } from 'jsonwebtoken';
+import { inject, injectable } from 'tsyringe';
+
 import User from '@modules/users/infra/typeorm/entities/User';
 import authConfig from '@config/auth';
 import AppError from '@shared/errors/AppError';
-import { inject, injectable } from 'tsyringe';
 import IUsersRepository from '../repositories/IUsersRepository';
 
 interface Request {
@@ -18,11 +19,12 @@ interface Response {
 
 @injectable()
 class AuthenticateUserService {
-  private userRepository: IUsersRepository;
-
   constructor(
     @inject('UsersRepository')
-    userRepository: IUsersRepository,
+    private userRepository: IUsersRepository,
+
+    @inject('HashProvider')
+    private hashProvider: IHashProvider,
   ) {
     this.userRepository = userRepository;
   }
@@ -34,13 +36,17 @@ class AuthenticateUserService {
       throw new AppError('Email or password incorrect', 401);
     }
 
-    const passwordMatched = await compare(password, user.password);
+    const passwordMatched = await this.hashProvider.compareHash(
+      password,
+      user.password,
+    );
 
     if (!passwordMatched) {
       throw new AppError('Email or password incorrect', 401);
     }
 
     const { secret, expiresIn } = authConfig.jwt;
+
     const token = sign({}, secret, {
       subject: user.id,
       expiresIn,
