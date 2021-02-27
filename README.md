@@ -26,15 +26,10 @@
 ## 🕹 Features
 
 * Create User
-<<<<<<< HEAD
-* Create Session by E-mail and Password
-* Authenticate User Route by JWT
-* Create User Appointments
-=======
+
 * Create Session by E-mail and Password, and get a JWT token
 * Use Authenticated Routes
 * Create Appointments with User - Appointments relation one to many
->>>>>>> 10768b6cb1c10bedbc5ac6545edb9701edc07be1
 * Get Appointments
 * Upload Avatar
 * Update Avatar
@@ -42,7 +37,6 @@
 
 
 ## 🏗 Architecture:
-<<<<<<< HEAD
 * `Runtime`: Node.JS with TypeScript
 * `API`: Express
 * `Architectural pattern`: Data mapper pattern + DDD
@@ -54,32 +48,17 @@
 ## 🧪 Test lib
 * Jest
 
-=======
-* `Runtime`: Node.JS with TypeScript 
-* `API`: RESTfull
-* `Architectural pattern`: Data mapper pattern with DDD
-* `ORM`: Typeorm
-* `Persistent data store`: Docker Postgres
-* `Authentication`: JWT
->>>>>>> 10768b6cb1c10bedbc5ac6545edb9701edc07be1
-
-
 ## 🔧 Other configs
 
 * Global Exception catch class
+* Middleware ```ensureAuthenticated``` to compare the auth JWT token with the provided key
+* BcryptJs to generate the user key as a hash
 
-<<<<<<< HEAD
 ## 🔨 TO-DO
 * Passsword recuperation
 * Update user profile
 * Service Provider dashboard
 * Service Schedule
-
-=======
-* Middleware ```ensureAuthenticated``` to compare the auth JWT token with the provided key 
-
-* BcryptJs to store the user key as a hash
->>>>>>> 10768b6cb1c10bedbc5ac6545edb9701edc07be1
 
 ## :information_source: How To Use
 
