@@ -20,28 +20,33 @@
   <a href="https://github.com/robertokbr/GoBarber/issues">
     <img alt="Repository issues" src="https://img.shields.io/github/issues/robertokbr/GoBarber.svg">
   </a>
-  
+
 # 🚧 In progress
 
 ## 🕹 Features
 
 * Create User
-* Create Session by E-mail and Password, and get a JWT token
-* Use Authenticated Routes
-* Create Appointments with User -> Appointments relation one to many
+* Create Session by E-mail and Password
+* Authenticate User Route by JWT
+* Create User Appointments
 * Get Appointments
 * Upload Avatar
-* Update Avatar 
+* Update Avatar
 * ...🔧
 
 
 ## 🏗 Architecture:
-* `Runtime`: Node.JS with TypeScript 
-* `API`: RESTfull
-* `Architectural pattern`: Data mapper pattern
-* `DB Abstraction`: Typeorm
-* `Persistent data store`: Postgres + Docker
-* `Authentication`: JWT
+* `Runtime`: Node.JS with TypeScript
+* `API`: Express
+* `Architectural pattern`: Data mapper pattern + DDD
+* `ORM`: Typeorm
+* `Persistent data store`: Docker Postgres
+* `Authentication`: Jsonwebtoken
+* `Dependencie injection`: Tsyringe
+
+## 🧪 Test lib
+* Jest
+
 
 ## 🎈 Project Style
 
@@ -52,6 +57,12 @@
 ## 🔧 Other configs
 
 * Global Exception catch class
+
+## 🔨 TO-DO
+* Passsword recuperation
+* Update user profile
+* Service Provider dashboard
+* Service Schedule
 
 
 ## :information_source: How To Use
@@ -66,7 +77,7 @@ $ git clone https://github.com/robertokbr/GoBarber
 $ cd GoBarber
 
 # Install dependencies
-$ yarn 
+$ yarn
 ```
 ---
 
@@ -86,7 +97,7 @@ $ docker run --name gostack_postgres -e POSTGRES_PASSWORD=docker -p 5432:54
 * ``OBS``: If you dont wanna run the database at Docker, and you preferer a simple alternative  I recommend you to change the database to Sqlite3, for this you have to:
 ```bash
 # Install Sqlite3
-$ yarn add sqlite3 
+$ yarn add sqlite3
 ```
 * Copy and paste it in the ormConfig.json:
 ```
