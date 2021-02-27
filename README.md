@@ -26,9 +26,15 @@
 ## 🕹 Features
 
 * Create User
+<<<<<<< HEAD
 * Create Session by E-mail and Password
 * Authenticate User Route by JWT
 * Create User Appointments
+=======
+* Create Session by E-mail and Password, and get a JWT token
+* Use Authenticated Routes
+* Create Appointments with User - Appointments relation one to many
+>>>>>>> 10768b6cb1c10bedbc5ac6545edb9701edc07be1
 * Get Appointments
 * Upload Avatar
 * Update Avatar
@@ -36,6 +42,7 @@
 
 
 ## 🏗 Architecture:
+<<<<<<< HEAD
 * `Runtime`: Node.JS with TypeScript
 * `API`: Express
 * `Architectural pattern`: Data mapper pattern + DDD
@@ -47,23 +54,32 @@
 ## 🧪 Test lib
 * Jest
 
+=======
+* `Runtime`: Node.JS with TypeScript 
+* `API`: RESTfull
+* `Architectural pattern`: Data mapper pattern with DDD
+* `ORM`: Typeorm
+* `Persistent data store`: Docker Postgres
+* `Authentication`: JWT
+>>>>>>> 10768b6cb1c10bedbc5ac6545edb9701edc07be1
 
-## 🎈 Project Style
-
-* EditorConfig
-* Eslint -config-airbnb
-* Prettier
 
 ## 🔧 Other configs
 
 * Global Exception catch class
 
+<<<<<<< HEAD
 ## 🔨 TO-DO
 * Passsword recuperation
 * Update user profile
 * Service Provider dashboard
 * Service Schedule
 
+=======
+* Middleware ```ensureAuthenticated``` to compare the auth JWT token with the provided key 
+
+* BcryptJs to store the user key as a hash
+>>>>>>> 10768b6cb1c10bedbc5ac6545edb9701edc07be1
 
 ## :information_source: How To Use
 
@@ -90,8 +106,6 @@ $ yarn
 $ docker run --name gostack_postgres -e POSTGRES_PASSWORD=docker -p 5432:54
 32 -d postgres
 ```
-* [Install Dbeaver](https://www.notion.so/MODULO-2-643fa9a4a8424fffa0602a07dad33646#134f91737d9e4216bf5d085c5a0c6121) - an ultimate Universal client which incorporates RDBMS and NoSQL Databases.
-* Create a postgres Database called "postgres", and config to localhost
 
 ## Docker Alternative
 * ``OBS``: If you dont wanna run the database at Docker, and you preferer a simple alternative  I recommend you to change the database to Sqlite3, for this you have to:
