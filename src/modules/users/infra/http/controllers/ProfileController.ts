@@ -12,6 +12,8 @@ class ProfileController {
 
     const user = await showProfile.execute({ user_id });
 
+    user.password = String(null);
+
     return response.json(user);
   }
 
