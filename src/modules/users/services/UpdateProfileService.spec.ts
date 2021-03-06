@@ -112,4 +112,16 @@ describe('UpdateProfileService', () => {
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
+
+  it('Should not be able to update a non created user', async () => {
+    await expect(
+      updateProfileService.execute({
+        user_id: 'invalid_id',
+        email: 'test@gmail.com',
+        name: 'person',
+        old_password: 'invalid-password',
+        password: '654321',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
 });
