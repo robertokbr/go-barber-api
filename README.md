@@ -26,39 +26,41 @@
 ## 🕹 Features
 
 * Create User
-
-* Create Session by E-mail and Password, and get a JWT token
-* Use Authenticated Routes
-* Create Appointments with User - Appointments relation one to many
-* Get Appointments
-* Upload Avatar
+* Create Session by JWT
+* Request password recover by email
+* Reset password
 * Update Avatar
-* ...🔧
+* Update logged User data
+* Show logged user data
+* Show providers
+* Show providers month availability
+* Show providers day time availability
+* Create Appointment
+* Get Appointments
 
 
 ## 🏗 Architecture:
+* `Architectural pattern`: Data mapper pattern + DDD
 * `Runtime`: Node.JS with TypeScript
 * `API`: Express
-* `Architectural pattern`: Data mapper pattern + DDD
 * `ORM`: Typeorm
 * `Persistent data store`: Docker Postgres
 * `Authentication`: Jsonwebtoken
 * `Dependencie injection`: Tsyringe
+* `Mail smtp`: Nodemailer
+* `Dev email smtp`: Ethereal
+* `Template engine`: Handlebars
 
 ## 🧪 Test lib
 * Jest
+  * 100% services TDD coverage ✅
 
 ## 🔧 Other configs
 
 * Global Exception catch class
 * Middleware ```ensureAuthenticated``` to compare the auth JWT token with the provided key
 * BcryptJs to generate the user key as a hash
-
-## 🔨 TO-DO
-* Passsword recuperation
-* Update user profile
-* Service Provider dashboard
-* Service Schedule
+* Date-fns to handle the Date
 
 ## :information_source: How To Use
 
