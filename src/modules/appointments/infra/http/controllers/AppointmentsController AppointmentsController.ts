@@ -8,6 +8,8 @@ class AppointmentsController {
   public async create(request: Request, response: Response): Promise<Response> {
     const { provider_id, date } = request.body;
 
+    const { id } = request.user;
+
     const parsedDate = parseISO(date);
 
     const CreateAppointment = container.resolve(CreateAppointmentService);
@@ -15,6 +17,7 @@ class AppointmentsController {
     const appointment = await CreateAppointment.execute({
       provider_id,
       date: parsedDate,
+      user_id: id,
     });
 
     return response.json(appointment);
