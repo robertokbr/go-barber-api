@@ -29,6 +29,7 @@
     "@typescript-eslint"
   ],
   "rules": {
+    "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-explicit-any":"off",
     "@typescript-eslint/interface-name-prefix":"off",
     "no-useless-constructor":"off",
