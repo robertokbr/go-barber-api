@@ -2,6 +2,7 @@ import { container } from 'tsyringe';
 import { Request, Response } from 'express';
 
 import UpdateUserAvatarService from '@modules/users/services/UpdateUserAvatarService.ts';
+import { classToClass } from 'class-transformer';
 
 class UserAvatarController {
   public async update(request: Request, response: Response): Promise<Response> {
@@ -14,7 +15,7 @@ class UserAvatarController {
 
     user.password = '';
 
-    return response.json(user);
+    return response.json(classToClass(user));
   }
 }
 
