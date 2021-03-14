@@ -8,3 +8,6 @@ tmp/*
 !tmp/.gitkeep
 debug.log
 coverage
+
+.env
+ormconfig.json

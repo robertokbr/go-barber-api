@@ -4,3 +4,4 @@ docker run --name postgres \
 
 docker run --name mogodb -p 27017:27017 -d -t mongo
 
+docker run --name redis -p 6379:6379 -d -t redis:alpine
