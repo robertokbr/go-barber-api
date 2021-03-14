@@ -13,14 +13,14 @@ class ProviderDayAvailabilityController {
       ListProviderDayAvailabilityService,
     );
 
-    const users = await listProviderDayAvailability.execute({
+    const availability = await listProviderDayAvailability.execute({
       provider_id,
       day: Number(day),
       month: Number(month),
       year: Number(year),
     });
 
-    return response.json(users);
+    return response.json(availability);
   }
 }
 
