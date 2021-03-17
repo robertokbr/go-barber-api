@@ -1,9 +1,10 @@
 import fs from 'fs';
 import path from 'path';
-import uploadConfig from '@config/upload';
 import aws, { S3 } from 'aws-sdk';
-import storage from '@config/storage';
 import mime from 'mime';
+
+import uploadConfig from '@config/upload';
+import storage from '@config/storage';
 
 class S3StorageProvider implements IStorageProvider {
   private cliente: S3;
