@@ -15,7 +15,7 @@ class SessionsController {
       email,
     });
 
-    return response.json({ user: classToClass(user), token });
+    return response.status(200).json({ user: classToClass(user), token });
   }
 }
 
