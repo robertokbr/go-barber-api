@@ -1,9 +1,10 @@
+/* eslint-disable no-bitwise */
 import { inject, injectable } from 'tsyringe';
 
-import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import User from '@modules/users/infra/typeorm/entities/User';
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 import { classToClass } from 'class-transformer';
+import IUserProviderAccountsRepository from '@modules/accounts/repositories/IUserProviderAccountsRepository';
 
 interface IRequest {
   user_id: string;
@@ -12,8 +13,8 @@ interface IRequest {
 @injectable()
 class ListProvidersService {
   constructor(
-    @inject('UsersRepository')
-    private usersRepository: IUsersRepository,
+    @inject('UserProviderAccountsRepository')
+    private UserProviderAccountsRepository: IUserProviderAccountsRepository,
 
     @inject('CacheProvider')
     private cacheProvider: ICacheProvider,
@@ -25,9 +26,17 @@ class ListProvidersService {
     );
 
     if (!users) {
-      users = await this.usersRepository.findAllProviders({
-        except_user_id: user_id,
-      });
+      const userProviderAccounts = await this.UserProviderAccountsRepository.find();
+
+      users = userProviderAccounts.map(
+        userProviderAccount => userProviderAccount.userAccount.user,
+      );
+
+      const userIsProvider = users.findIndex(user => user.id === user_id);
+
+      if (~userIsProvider) {
+        users.splice(userIsProvider, 1);
+      }
 
       await this.cacheProvider.save(
         `providers-list:${user_id}`,

@@ -34,11 +34,6 @@ class CreateAppointmentService {
   }: IRequest): Promise<Appointment> {
     const appointmentDate = startOfHour(date);
 
-    const cacheKey = `provider-appointments:${provider_id}:${format(
-      appointmentDate,
-      'yyyy-M-d',
-    )}`;
-
     const findAppointmentInSameDate = await this.appointmentsRepository.findByDate(
       appointmentDate,
       provider_id,
@@ -74,6 +69,11 @@ class CreateAppointmentService {
       recipient_id: provider_id,
       content: `Novo agendamento para o dia ${formatedDate}`,
     });
+
+    const cacheKey = `provider-appointments:${provider_id}:${format(
+      appointmentDate,
+      'yyyy-M-d',
+    )}`;
 
     await this.cacheProvider.invalidate(cacheKey);
 

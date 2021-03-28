@@ -15,6 +15,10 @@ describe('ListProviderMonthAvailabilityService', () => {
   it('Should be able to list the available days from provider', async () => {
     const timeArray = Array.from({ length: 10 }, (_, index) => index + 8);
 
+    jest.spyOn(Date, 'now').mockImplementationOnce(() => {
+      return new Date(2021, 0, 1).getTime();
+    });
+
     await Promise.all(
       timeArray.map(hour =>
         fakeAppointmentsRepository.create({

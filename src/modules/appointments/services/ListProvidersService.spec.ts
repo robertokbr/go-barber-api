@@ -1,39 +1,39 @@
+import FakeUserProviderAccountsRepository from '@modules/accounts/repositories/fakes/FakeUserProviderAccountsRepository';
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
 import ListProvidersService from './ListProvidersService';
 
-let fakeUsersRepository: FakeUsersRepository;
+let fakeUserProviderAccountsRepository: FakeUserProviderAccountsRepository;
 let listProviders: ListProvidersService;
 let fakeCacheProvider: FakeCacheProvider;
+let fakeUsersRepository: FakeUsersRepository;
 
 describe('ShowProfileService', () => {
   beforeEach(() => {
     fakeUsersRepository = new FakeUsersRepository();
+    fakeUserProviderAccountsRepository = new FakeUserProviderAccountsRepository();
     fakeCacheProvider = new FakeCacheProvider();
     listProviders = new ListProvidersService(
-      fakeUsersRepository,
+      fakeUserProviderAccountsRepository,
       fakeCacheProvider,
     );
   });
 
   it('Should be able to list the providers', async () => {
-    const userOne = await fakeUsersRepository.create({
+    const provider = await fakeUsersRepository.create({
       email: 'test1@gmail.com',
-      name: 'person1',
+      name: 'person',
       password: '123456',
     });
 
-    const userTwo = await fakeUsersRepository.create({
-      email: 'test2@gmail.com',
-      name: 'person2',
-      password: '123456',
+    await fakeUserProviderAccountsRepository.create({
+      account_type_id: 1,
+      user: provider,
     });
-
-    const providers = [userOne, userTwo];
 
     const loggedUser = await fakeUsersRepository.create({
-      email: 'test3@gmail.com',
-      name: 'person3',
+      email: 'test2@gmail.com',
+      name: 'person2',
       password: '123456',
     });
 
@@ -41,6 +41,6 @@ describe('ShowProfileService', () => {
       user_id: loggedUser.id,
     });
 
-    expect(listProvidersReturn).toEqual(providers);
+    expect(listProvidersReturn).toEqual([provider]);
   });
 });
