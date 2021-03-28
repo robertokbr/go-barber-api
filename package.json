@@ -8,6 +8,7 @@
     "dev:server": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only  src/shared/infra/http/server.ts",
     "start": "ts-node -r tsconfig-paths/register src/shared/infra/http/index.ts",
     "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "seed:run": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js seed",
     "test": "jest"
   },
   "dependencies": {
@@ -60,6 +61,7 @@
     "prettier": "^2.0.5",
     "ts-jest": "^26.4.3",
     "ts-node-dev": "^1.0.0-p  re.44",
-    "tsconfig-paths": "^3.9.0"
+    "tsconfig-paths": "^3.9.0",
+    "typeorm-seeding": "^1.6.1"
   }
 }
