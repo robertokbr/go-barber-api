@@ -30,8 +30,10 @@
 * Request password recover by email
 * Reset password
 * Update Avatar
-* Update logged User data
 * Show logged user data
+* Update logged User data
+* Show user profile
+* Create Provider account
 * Show providers
 * Show providers month availability
 * Show providers day time availability
@@ -44,12 +46,16 @@
 * `Runtime`: Node.JS with TypeScript
 * `API`: Express
 * `ORM`: Typeorm
-* `Persistent data store`: Docker Postgres
+* `Persistent SQL data storage`:  Postgres
+* `Persistent NoSQL data storage`:  MongoDB
+* `Cache storage`:  Redis
 * `Authentication`: Jsonwebtoken
 * `Dependencie injection`: Tsyringe
 * `Mail smtp`: Nodemailer
-* `Dev email smtp`: Ethereal
+* `Dev email client`: Ethereal
+* `Prod email client`: Amazon SES
 * `Template engine`: Handlebars
+* `Multimidia storage`: Amazon S3
 
 ## 🧪 Test lib
 * Jest
@@ -59,8 +65,8 @@
 
 * Global Exception catch class
 * Middleware ```ensureAuthenticated``` to compare the auth JWT token with the provided key
-* BcryptJs to generate the user key as a hash
 * Date-fns to handle the Date
+* Middleware ```rateLimiter``` to create a request limiter to the same IP by the provided time range, avoinding DDos attacks
 
 ## :information_source: How To Use
 
@@ -94,7 +100,7 @@ $ docker run --name gostack_postgres -e POSTGRES_PASSWORD=docker -p 5432:54
 # Install Sqlite3
 $ yarn add sqlite3
 ```
-* Copy and paste it in the ormConfig.json:
+* Copy and paste it in the ormConfig.json instead of the postgres config:
 ```
 {
   "name": "default",
@@ -119,11 +125,17 @@ $ yarn add sqlite3
 
 ```
 
-## How to Run the Server:
+## How to start Database:
 ```bash
 # Run migrations
-$ yarn typeorm migratios:run
+  $ yarn typeorm migratios:run
 
+# Run seeds
+  $ yarn seed:run
+```
+
+## How to Run the Server:
+```bash
 # Run localhost server
 $ yarn dev:server
 ```
