@@ -39,6 +39,7 @@
 * Show providers day time availability
 * Create Appointment
 * Get Appointments
+* Create Appointment notifications
 
 
 ## 🏗 Architecture:
@@ -84,7 +85,7 @@ $ yarn
 ```
 ---
 
-## How to Run Postgres Database at Docker
+## How to Run all databases at Docker
 
 * [Install Docker](https://www.notion.so/Instalando-Docker-6290d9994b0b4555a153576a1d97bee2)
 
@@ -92,37 +93,10 @@ $ yarn
 # Create a Postgres Image
 $ docker run --name gostack_postgres -e POSTGRES_PASSWORD=docker -p 5432:54
 32 -d postgres
-```
 
-## Docker Alternative
-* ``OBS``: If you dont wanna run the database at Docker, and you preferer a simple alternative  I recommend you to change the database to Sqlite3, for this you have to:
-```bash
-# Install Sqlite3
-$ yarn add sqlite3
-```
-* Copy and paste it in the ormConfig.json instead of the postgres config:
-```
-{
-  "name": "default",
-  "type": "sqlite",
-  "database": "./src/database/db.sqlite3",
-  "autoSchemaSync": true,
-  "entities": [
-    "src/models/*.ts"
-  ],
-  "logging": {
-    "logQueries": true
-  },
+docker run --name mogodb -p 27017:27017 -d -t mongo
 
-  "migrations": [
-    "./src/database/migrations/*.ts"
-  ],
-  "cli": {
-    "entitiesDir": "src/models",
-    "migrationsDir": "./src/database/migrations"
-  }
-}
-
+docker run --name redis -p 6379:6379 -d -t redis:alpine
 ```
 
 ## How to start Database:
