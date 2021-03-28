@@ -6,12 +6,14 @@ import sessionsRouter from '@modules/users/infra/http/routes/sessions.routes';
 import passwordRouter from '@modules/users/infra/http/routes/password.routes';
 import profileRouter from '@modules/users/infra/http/routes/profile.routes';
 import providersRouter from '@modules/appointments/infra/http/routes/providers.routes';
+import providerAccounts from '@modules/accounts/infra/http/routes/providerAccount.routes';
 
 const routes = Router();
 
 routes.use('/appointments', appointmentsRouter);
 routes.use('/providers', providersRouter);
 routes.use('/users', usersRouter);
+routes.use('/accounts', providerAccounts);
 routes.use('/profile', profileRouter);
 routes.use('/sessions', sessionsRouter);
 routes.use('/password', passwordRouter);
