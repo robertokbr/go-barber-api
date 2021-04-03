@@ -1,6 +1,8 @@
 import { inject, injectable } from 'tsyringe';
 import { getDaysInMonth, getDate, isAfter } from 'date-fns';
 
+import IUserProviderAccountsRepository from '@modules/accounts/repositories/IUserProviderAccountsRepository';
+import AppError from '@shared/errors/AppError';
 import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 
 interface IRequest {
@@ -19,6 +21,9 @@ class ListProviderMonthAvailabilityService {
   constructor(
     @inject('AppointmentsRepository')
     private appointmentsRepository: IAppointmentsRepository,
+
+    @inject('UserProviderAccountsRepository')
+    private userProviderAccountsRepository: IUserProviderAccountsRepository,
   ) {}
 
   public async execute({
@@ -26,8 +31,16 @@ class ListProviderMonthAvailabilityService {
     month,
     year,
   }: IRequest): Promise<IResponse> {
+    const provider = await this.userProviderAccountsRepository.findByUserId(
+      provider_id,
+    );
+
+    if (!provider) {
+      throw new AppError('User selected is not a provider');
+    }
+
     const appointments = await this.appointmentsRepository.findAllInMonthFromProvider(
-      { provider_id, month, year },
+      { provider_id: provider.id, month, year },
     );
 
     const numberOfDaysInMonth = getDaysInMonth(new Date(year, month - 1));

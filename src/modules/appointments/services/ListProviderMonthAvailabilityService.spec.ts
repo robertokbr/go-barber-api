@@ -1,14 +1,18 @@
+import FakeUserProviderAccountsRepository from '@modules/accounts/repositories/fakes/FakeUserProviderAccountsRepository';
 import FakeAppointmentsRepository from '../repositories/fakes/FakeAppointmentsRepository';
 import ListProviderMonthAvailabilityService from './ListProviderMonthAvailabilityService';
 
 let fakeAppointmentsRepository: FakeAppointmentsRepository;
 let listProviderMonthAvailability: ListProviderMonthAvailabilityService;
+let fakeUserProviderAccountsRepository: FakeUserProviderAccountsRepository;
 
 describe('ListProviderMonthAvailabilityService', () => {
   beforeEach(() => {
     fakeAppointmentsRepository = new FakeAppointmentsRepository();
+    fakeUserProviderAccountsRepository = new FakeUserProviderAccountsRepository();
     listProviderMonthAvailability = new ListProviderMonthAvailabilityService(
       fakeAppointmentsRepository,
+      fakeUserProviderAccountsRepository,
     );
   });
 
@@ -22,7 +26,7 @@ describe('ListProviderMonthAvailabilityService', () => {
     await Promise.all(
       timeArray.map(hour =>
         fakeAppointmentsRepository.create({
-          provider_id: 'provider',
+          provider_id: 1,
           user_id: 'user',
           date: new Date(2021, 0, 1, hour, 0, 0),
         }),
@@ -30,7 +34,7 @@ describe('ListProviderMonthAvailabilityService', () => {
     );
 
     await fakeAppointmentsRepository.create({
-      provider_id: 'provider',
+      provider_id: 1,
       user_id: 'user',
       date: new Date(2021, 0, 2, 8, 0, 0),
     });

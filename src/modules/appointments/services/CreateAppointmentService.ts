@@ -6,6 +6,7 @@ import Appointment from '@modules/appointments/infra/typeorm/entities/Appointmen
 import AppError from '@shared/errors/AppError';
 import INotificationsRepository from '@modules/notifications/repositories/INotificationsRepository';
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
+import IUserProviderAccountsRepository from '@modules/accounts/repositories/IUserProviderAccountsRepository';
 import IAppointementsRepository from '../repositories/IAppointmentsRepository';
 
 interface IRequest {
@@ -25,6 +26,9 @@ class CreateAppointmentService {
 
     @inject('CacheProvider')
     private cacheProvider: ICacheProvider,
+
+    @inject('UserProviderAccountsRepository')
+    private userProviderAccountsRepository: IUserProviderAccountsRepository,
   ) {}
 
   public async execute({
@@ -34,9 +38,17 @@ class CreateAppointmentService {
   }: IRequest): Promise<Appointment> {
     const appointmentDate = startOfHour(date);
 
+    const provider = await this.userProviderAccountsRepository.findByUserId(
+      provider_id,
+    );
+
+    if (!provider) {
+      throw new AppError('User selected is not a provider');
+    }
+
     const findAppointmentInSameDate = await this.appointmentsRepository.findByDate(
       appointmentDate,
-      provider_id,
+      provider.id,
     );
 
     if (isBefore(appointmentDate, new Date(Date.now()))) {
@@ -58,7 +70,7 @@ class CreateAppointmentService {
     }
 
     const appointment = await this.appointmentsRepository.create({
-      provider_id,
+      provider_id: provider.id,
       date: appointmentDate,
       user_id,
     });
@@ -70,12 +82,17 @@ class CreateAppointmentService {
       content: `Novo agendamento para o dia ${formatedDate}`,
     });
 
-    const cacheKey = `provider-appointments:${provider_id}:${format(
+    const cacheKeyProvider = `provider-appointments:${provider_id}:${format(
       appointmentDate,
       'yyyy-M-d',
     )}`;
 
-    await this.cacheProvider.invalidate(cacheKey);
+    const cacheKeyUser = `user-appointments:${user_id}`;
+
+    await Promise.all([
+      this.cacheProvider.invalidate(cacheKeyProvider),
+      this.cacheProvider.invalidate(cacheKeyUser),
+    ]);
 
     return appointment;
   }

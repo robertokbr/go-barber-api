@@ -2,6 +2,8 @@ import { inject, injectable } from 'tsyringe';
 import { classToClass } from 'class-transformer';
 
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
+import IUserProviderAccountsRepository from '@modules/accounts/repositories/IUserProviderAccountsRepository';
+import AppError from '@shared/errors/AppError';
 import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 import Appointment from '../infra/typeorm/entities/Appointment';
 
@@ -20,6 +22,9 @@ class ListProviderAppointmentsService {
 
     @inject('CacheProvider')
     private cacheProvider: ICacheProvider,
+
+    @inject('UserProviderAccountsRepository')
+    private userProviderAccountsRepository: IUserProviderAccountsRepository,
   ) {}
 
   public async execute({
@@ -35,9 +40,17 @@ class ListProviderAppointmentsService {
     );
 
     if (!appointments) {
+      const provider = await this.userProviderAccountsRepository.findByUserId(
+        provider_id,
+      );
+
+      if (!provider) {
+        throw new AppError('User selected is not a provider');
+      }
+
       appointments = await this.appointmentsRepository.findAllInDayFromProvider(
         {
-          provider_id,
+          provider_id: provider.id,
           day,
           year,
           month,

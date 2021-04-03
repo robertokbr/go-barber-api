@@ -1,14 +1,18 @@
+import FakeUserProviderAccountsRepository from '@modules/accounts/repositories/fakes/FakeUserProviderAccountsRepository';
 import FakeAppointmentsRepository from '../repositories/fakes/FakeAppointmentsRepository';
 import ListProviderDayAvailabilityService from './ListProviderDayAvailabilityService';
 
 let fakeAppointmentsRepository: FakeAppointmentsRepository;
 let listProviderDayAvailability: ListProviderDayAvailabilityService;
+let userProviderAccountsRepository: FakeUserProviderAccountsRepository;
 
 describe('ListProviderDayAvailabilityService', () => {
   beforeEach(() => {
     fakeAppointmentsRepository = new FakeAppointmentsRepository();
+    userProviderAccountsRepository = new FakeUserProviderAccountsRepository();
     listProviderDayAvailability = new ListProviderDayAvailabilityService(
       fakeAppointmentsRepository,
+      userProviderAccountsRepository,
     );
   });
 
@@ -23,7 +27,7 @@ describe('ListProviderDayAvailabilityService', () => {
       timeArray.map(hour =>
         fakeAppointmentsRepository.create({
           user_id: 'user',
-          provider_id: 'provider',
+          provider_id: 1,
           date: new Date(2021, 0, 1, hour, 0, 0),
         }),
       ),

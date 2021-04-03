@@ -14,7 +14,7 @@ interface IRequest {
 class ListProvidersService {
   constructor(
     @inject('UserProviderAccountsRepository')
-    private UserProviderAccountsRepository: IUserProviderAccountsRepository,
+    private userProviderAccountsRepository: IUserProviderAccountsRepository,
 
     @inject('CacheProvider')
     private cacheProvider: ICacheProvider,
@@ -26,7 +26,7 @@ class ListProvidersService {
     );
 
     if (!users) {
-      const userProviderAccounts = await this.UserProviderAccountsRepository.find();
+      const userProviderAccounts = await this.userProviderAccountsRepository.find();
 
       users = userProviderAccounts.map(
         userProviderAccount => userProviderAccount.userAccount.user,
