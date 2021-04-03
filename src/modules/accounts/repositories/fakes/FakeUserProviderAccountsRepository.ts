@@ -29,6 +29,14 @@ class FakeUserProviderAccountsRepository
   public async find(): Promise<UserProviderAccount[]> {
     return this.userProviderAccounts;
   }
+
+  public async findByUserId(
+    user_id: string,
+  ): Promise<UserProviderAccount | undefined> {
+    return this.userProviderAccounts.find(
+      provider => provider.userAccount.user_id === user_id,
+    );
+  }
 }
 
 export default FakeUserProviderAccountsRepository;
