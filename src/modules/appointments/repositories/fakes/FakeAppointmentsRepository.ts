@@ -12,7 +12,7 @@ class FakeAppointmentsRepository implements IAppointmentsRepository {
 
   public async findByDate(
     date: Date,
-    provider_id: string,
+    provider_id: number,
   ): Promise<Appointment | undefined> {
     const findAppointment = this.appointments.find(
       appointment =>
@@ -67,6 +67,12 @@ class FakeAppointmentsRepository implements IAppointmentsRepository {
     this.appointments.push(appointment);
 
     return appointment;
+  }
+
+  public async fundByUserId(user_id: string): Promise<Appointment[]> {
+    return this.appointments.filter(
+      appointment => appointment.user_id === user_id,
+    );
   }
 }
 
