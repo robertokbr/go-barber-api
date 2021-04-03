@@ -8,6 +8,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import User from '@modules/users/infra/typeorm/entities/User';
+import UserProviderAccount from '@modules/accounts/infra/typeorm/entities/UserProviderAccount';
 
 @Entity('appointments')
 class Appointment {
@@ -15,14 +16,14 @@ class Appointment {
   id: string;
 
   @Column()
-  provider_id: string;
+  provider_id: number;
 
   @Column()
   user_id: string;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'provider_id' })
-  provider: User;
+  provider: UserProviderAccount;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id' })
