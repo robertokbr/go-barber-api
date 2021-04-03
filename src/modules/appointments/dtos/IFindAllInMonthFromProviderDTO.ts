@@ -1,5 +1,5 @@
 export default interface IFindAllInMonthFromProviderDTO {
-  provider_id: string;
+  provider_id: number;
   month: number;
   year: number;
 }
