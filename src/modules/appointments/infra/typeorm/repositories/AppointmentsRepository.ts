@@ -88,6 +88,7 @@ class AppointmentsRepository implements IAppointmentsRepository {
       where: {
         user_id,
       },
+      relations: ['user'],
     });
   }
 }
