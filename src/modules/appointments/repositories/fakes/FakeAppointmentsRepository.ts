@@ -69,7 +69,7 @@ class FakeAppointmentsRepository implements IAppointmentsRepository {
     return appointment;
   }
 
-  public async fundByUserId(user_id: string): Promise<Appointment[]> {
+  public async findByUserId(user_id: string): Promise<Appointment[]> {
     return this.appointments.filter(
       appointment => appointment.user_id === user_id,
     );

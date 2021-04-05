@@ -83,12 +83,12 @@ class AppointmentsRepository implements IAppointmentsRepository {
     return appointment;
   }
 
-  public async fundByUserId(user_id: string): Promise<Appointment[]> {
+  public async findByUserId(user_id: string): Promise<Appointment[]> {
     return this.ormRepository.find({
       where: {
         user_id,
       },
-      relations: ['user'],
+      relations: ['provider'],
     });
   }
 }

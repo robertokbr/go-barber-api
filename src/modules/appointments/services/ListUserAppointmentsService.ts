@@ -27,7 +27,7 @@ class ListUserAppointmentsService {
     );
 
     if (!appointments) {
-      appointments = await this.appointmentsRepository.fundByUserId(user_id);
+      appointments = await this.appointmentsRepository.findByUserId(user_id);
 
       await this.cacheProvider.save(cacheKey, classToClass(appointments));
     }
