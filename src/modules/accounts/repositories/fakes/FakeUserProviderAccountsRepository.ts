@@ -34,7 +34,7 @@ class FakeUserProviderAccountsRepository
     user_id: string,
   ): Promise<UserProviderAccount | undefined> {
     return this.userProviderAccounts.find(
-      provider => provider.userAccount.user_id === user_id,
+      provider => provider.userAccount.user.id === user_id,
     );
   }
 }
