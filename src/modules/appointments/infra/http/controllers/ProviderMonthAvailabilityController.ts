@@ -14,7 +14,7 @@ class ProviderMonthAvailabilityController {
     );
 
     const users = await listProviderMonthAvailability.execute({
-      provider_id,
+      provider_user_id: provider_id,
       month: Number(month),
       year: Number(year),
     });

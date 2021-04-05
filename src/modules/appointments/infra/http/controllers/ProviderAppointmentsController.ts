@@ -15,7 +15,7 @@ class ProviderAppointmentsController {
     );
 
     const appointments = await listProviderAppointments.execute({
-      provider_id,
+      provider_user_id: provider_id,
       day: Number(day),
       year: Number(year),
       month: Number(month),

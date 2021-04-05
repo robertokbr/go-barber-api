@@ -12,7 +12,7 @@ class AppointmentsController {
     const CreateAppointment = container.resolve(CreateAppointmentService);
 
     const appointment = await CreateAppointment.execute({
-      provider_id,
+      provider_user_id: provider_id,
       date,
       user_id: id,
     });
