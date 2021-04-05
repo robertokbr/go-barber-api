@@ -20,27 +20,44 @@ describe('ShowProfileService', () => {
   });
 
   it('Should be able to list the providers', async () => {
-    const provider = await fakeUsersRepository.create({
-      email: 'test1@gmail.com',
-      name: 'person',
-      password: '123456',
-    });
-
-    await fakeUserProviderAccountsRepository.create({
+    const provider = await fakeUserProviderAccountsRepository.create({
       account_type_id: 1,
-      user: provider,
+      user: {
+        id: 'provider_id',
+        email: 'test1@gmail.com',
+        name: 'person',
+        password: '123456',
+      },
     });
 
-    const loggedUser = await fakeUsersRepository.create({
+    const user = await fakeUsersRepository.create({
       email: 'test2@gmail.com',
       name: 'person2',
       password: '123456',
     });
 
     const listProvidersReturn = await listProviders.execute({
-      user_id: loggedUser.id,
+      user_id: user.id,
     });
 
-    expect(listProvidersReturn).toEqual([provider]);
+    expect(listProvidersReturn).toEqual([provider.userAccount.user]);
+  });
+
+  it('Should remove the user of the list if he is a provider', async () => {
+    const provider = await fakeUserProviderAccountsRepository.create({
+      account_type_id: 1,
+      user: {
+        id: 'provider_id',
+        email: 'test1@gmail.com',
+        name: 'person',
+        password: '123456',
+      },
+    });
+
+    const listProvidersReturn = await listProviders.execute({
+      user_id: provider.userAccount.user.id,
+    });
+
+    expect(listProvidersReturn).toEqual([]);
   });
 });

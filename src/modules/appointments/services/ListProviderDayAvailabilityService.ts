@@ -6,7 +6,7 @@ import AppError from '@shared/errors/AppError';
 import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 
 interface IRequest {
-  provider_id: string;
+  provider_user_id: string;
   month: number;
   year: number;
   day: number;
@@ -28,13 +28,13 @@ class ListProviderDayAvailability {
   ) {}
 
   public async execute({
-    provider_id,
+    provider_user_id,
     month,
     year,
     day,
   }: IRequest): Promise<IResponse> {
     const provider = await this.userProviderAccountsRepository.findByUserId(
-      provider_id,
+      provider_user_id,
     );
 
     if (!provider) {

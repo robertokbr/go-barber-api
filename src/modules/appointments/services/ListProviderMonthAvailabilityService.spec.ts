@@ -1,4 +1,5 @@
 import FakeUserProviderAccountsRepository from '@modules/accounts/repositories/fakes/FakeUserProviderAccountsRepository';
+import AppError from '@shared/errors/AppError';
 import FakeAppointmentsRepository from '../repositories/fakes/FakeAppointmentsRepository';
 import ListProviderMonthAvailabilityService from './ListProviderMonthAvailabilityService';
 
@@ -23,10 +24,20 @@ describe('ListProviderMonthAvailabilityService', () => {
       return new Date(2021, 0, 1).getTime();
     });
 
+    const provider = await fakeUserProviderAccountsRepository.create({
+      account_type_id: 1,
+      user: {
+        id: 'provider_id',
+        email: 'provider@gmail.com',
+        name: 'provider',
+        password: '123456',
+      },
+    });
+
     await Promise.all(
       timeArray.map(hour =>
         fakeAppointmentsRepository.create({
-          provider_id: 1,
+          provider_id: provider.id,
           user_id: 'user',
           date: new Date(2021, 0, 1, hour, 0, 0),
         }),
@@ -34,13 +45,13 @@ describe('ListProviderMonthAvailabilityService', () => {
     );
 
     await fakeAppointmentsRepository.create({
-      provider_id: 1,
+      provider_id: provider.id,
       user_id: 'user',
       date: new Date(2021, 0, 2, 8, 0, 0),
     });
 
     const monthAvailability = await listProviderMonthAvailability.execute({
-      provider_id: 'provider',
+      provider_user_id: provider.userAccount.user.id,
       month: 1,
       year: 2021,
     });
@@ -53,5 +64,15 @@ describe('ListProviderMonthAvailabilityService', () => {
         { day: 4, available: true },
       ]),
     );
+  });
+
+  it('should not be able to list availability to a non provider user', async () => {
+    await expect(
+      listProviderMonthAvailability.execute({
+        month: 1,
+        year: 2021,
+        provider_user_id: 'invalid_provider_id',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
   });
 });

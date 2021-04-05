@@ -9,19 +9,19 @@ let fakeAppointmentsRepository: FakeAppointmentsRepository;
 let fakeNotificationsRepository: FakeNotificationsRepository;
 let createAppointmentService: CreateAppointmentService;
 let fakeCacheProvider: FakeCacheProvider;
-let userProviderAccountsRepository: FakeUserProviderAccountsRepository;
+let fakeUserProviderAccountsRepository: FakeUserProviderAccountsRepository;
 
 describe('CreateAfakeCacheProviderfakeCacheProviderfakeCacheProviderppointment', () => {
   beforeEach(() => {
     fakeAppointmentsRepository = new FakeAppointmentsRepository();
     fakeNotificationsRepository = new FakeNotificationsRepository();
-    userProviderAccountsRepository = new FakeUserProviderAccountsRepository();
+    fakeUserProviderAccountsRepository = new FakeUserProviderAccountsRepository();
     fakeCacheProvider = new FakeCacheProvider();
     createAppointmentService = new CreateAppointmentService(
       fakeAppointmentsRepository,
       fakeNotificationsRepository,
       fakeCacheProvider,
-      userProviderAccountsRepository,
+      fakeUserProviderAccountsRepository,
     );
   });
 
@@ -30,45 +30,85 @@ describe('CreateAfakeCacheProviderfakeCacheProviderfakeCacheProviderppointment',
       return new Date(2021, 0, 1, 12).getTime();
     });
 
+    const provider = await fakeUserProviderAccountsRepository.create({
+      account_type_id: 1,
+      user: {
+        id: 'provider_id',
+        email: 'provider@gmail.com',
+        name: 'provider',
+        password: '123456',
+      },
+    });
+
     const appointment = await createAppointmentService.execute({
       user_id: 'user',
-      provider_id: 'provider',
+      provider_user_id: provider.userAccount.user.id,
       date: new Date(2021, 0, 1, 13),
     });
 
     expect(appointment).toHaveProperty('id');
   });
 
-  it('should not be able to create a new appointment with user as provider', async () => {
-    jest.spyOn(Date, 'now').mockImplementationOnce(() => {
-      return new Date(2021, 0, 1, 12).getTime();
-    });
-
+  it('should not be able to create an appointment with a non provider user', async () => {
     await expect(
       createAppointmentService.execute({
         user_id: 'user',
-        provider_id: 'user',
+        provider_user_id: 'invalid_provider_id',
         date: new Date(2021, 0, 1, 13),
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
 
-  it(`should not be able to create two appointments in the same date`, async () => {
+  it('should not be able to create a new appointment with user as provider', async () => {
     jest.spyOn(Date, 'now').mockImplementationOnce(() => {
-      return new Date(2021, 0, 1, 12).getTime();
+      return new Date(2021, 0, 1).getTime();
     });
 
-    await createAppointmentService.execute({
-      user_id: 'user',
-      provider_id: 'provider',
-      date: new Date(2021, 0, 1, 13),
+    const provider = await fakeUserProviderAccountsRepository.create({
+      account_type_id: 1,
+      user: {
+        id: 'user',
+        email: 'provider@gmail.com',
+        name: 'provider',
+        password: '123456',
+      },
     });
 
     await expect(
       createAppointmentService.execute({
         user_id: 'user',
-        provider_id: 'provider',
-        date: new Date(2021, 0, 1, 13),
+        provider_user_id: provider.userAccount.user.id,
+        date: new Date(2021, 0, 1),
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+
+  it(`should not be able to create two appointments in the same time`, async () => {
+    jest.spyOn(Date, 'now').mockImplementation(() => {
+      return new Date(2021, 0, 1, 12).getTime();
+    });
+
+    const provider = await fakeUserProviderAccountsRepository.create({
+      account_type_id: 1,
+      user: {
+        id: 'provider_id',
+        email: 'provider@gmail.com',
+        name: 'provider',
+        password: '123456',
+      },
+    });
+
+    await createAppointmentService.execute({
+      user_id: 'user',
+      provider_user_id: provider.userAccount.user.id,
+      date: new Date(2021, 0, 1, 12),
+    });
+
+    await expect(
+      createAppointmentService.execute({
+        user_id: 'user',
+        provider_user_id: provider.userAccount.user.id,
+        date: new Date(2021, 0, 1, 12),
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -78,10 +118,20 @@ describe('CreateAfakeCacheProviderfakeCacheProviderfakeCacheProviderppointment',
       return new Date(2021, 0, 1).getTime();
     });
 
+    const provider = await fakeUserProviderAccountsRepository.create({
+      account_type_id: 1,
+      user: {
+        id: 'provider_id',
+        email: 'provider@gmail.com',
+        name: 'provider',
+        password: '123456',
+      },
+    });
+
     await expect(
       createAppointmentService.execute({
         user_id: 'user',
-        provider_id: 'provider',
+        provider_user_id: provider.userAccount.user.id,
         date: new Date(2020, 0, 1),
       }),
     ).rejects.toBeInstanceOf(AppError);
@@ -92,11 +142,21 @@ describe('CreateAfakeCacheProviderfakeCacheProviderfakeCacheProviderppointment',
       return new Date(2021, 0, 1).getTime();
     });
 
+    const provider = await fakeUserProviderAccountsRepository.create({
+      account_type_id: 1,
+      user: {
+        id: 'provider_id',
+        email: 'provider@gmail.com',
+        name: 'provider',
+        password: '123456',
+      },
+    });
+
     await expect(
       createAppointmentService.execute({
         user_id: 'user',
-        provider_id: 'provider',
-        date: new Date(2020, 0, 1, 7),
+        provider_user_id: provider.userAccount.user.id,
+        date: new Date(2021, 0, 1, 18),
       }),
     ).rejects.toBeInstanceOf(AppError);
   });

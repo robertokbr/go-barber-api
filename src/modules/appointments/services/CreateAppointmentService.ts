@@ -11,7 +11,7 @@ import IAppointementsRepository from '../repositories/IAppointmentsRepository';
 
 interface IRequest {
   user_id: string;
-  provider_id: string;
+  provider_user_id: string;
   date: Date;
 }
 
@@ -32,31 +32,26 @@ class CreateAppointmentService {
   ) {}
 
   public async execute({
-    provider_id,
+    provider_user_id,
     date,
     user_id,
   }: IRequest): Promise<Appointment> {
-    const appointmentDate = startOfHour(date);
+    if (user_id === provider_user_id) {
+      throw new AppError("You can't create a appointment with yourself!");
+    }
 
     const provider = await this.userProviderAccountsRepository.findByUserId(
-      provider_id,
+      provider_user_id,
     );
 
     if (!provider) {
       throw new AppError('User selected is not a provider');
     }
 
-    const findAppointmentInSameDate = await this.appointmentsRepository.findByDate(
-      appointmentDate,
-      provider.id,
-    );
+    const appointmentDate = startOfHour(date);
 
     if (isBefore(appointmentDate, new Date(Date.now()))) {
       throw new AppError("You can't create appointments in a past Date!");
-    }
-
-    if (user_id === provider_id) {
-      throw new AppError("You can't create a appointment with yourself!");
     }
 
     if (getHours(appointmentDate) < 8 || getHours(appointmentDate) > 17) {
@@ -64,6 +59,11 @@ class CreateAppointmentService {
         "You can't create an appointment out of the time range!",
       );
     }
+
+    const findAppointmentInSameDate = await this.appointmentsRepository.findByDate(
+      appointmentDate,
+      provider.id,
+    );
 
     if (findAppointmentInSameDate) {
       throw new AppError('This appointment is already booked!');
@@ -78,11 +78,11 @@ class CreateAppointmentService {
     const formatedDate = format(appointmentDate, "dd/MM/yyyy 'às' HH:mm'h'");
 
     await this.notificationsRepository.create({
-      recipient_id: provider_id,
+      recipient_id: provider_user_id,
       content: `Novo agendamento para o dia ${formatedDate}`,
     });
 
-    const cacheKeyProvider = `provider-appointments:${provider_id}:${format(
+    const cacheKeyProvider = `provider-appointments:${provider_user_id}:${format(
       appointmentDate,
       'yyyy-M-d',
     )}`;

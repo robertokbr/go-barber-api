@@ -8,7 +8,7 @@ import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 import Appointment from '../infra/typeorm/entities/Appointment';
 
 interface IRequest {
-  provider_id: string;
+  provider_user_id: string;
   day: number;
   month: number;
   year: number;
@@ -28,12 +28,12 @@ class ListProviderAppointmentsService {
   ) {}
 
   public async execute({
-    provider_id,
+    provider_user_id,
     day,
     year,
     month,
   }: IRequest): Promise<Appointment[]> {
-    const cacheKey = `provider-appointments:${provider_id}:${year}-${month}-${day}`;
+    const cacheKey = `provider-appointments:${provider_user_id}:${year}-${month}-${day}`;
 
     let appointments = await this.cacheProvider.recover<Appointment[]>(
       cacheKey,
@@ -41,7 +41,7 @@ class ListProviderAppointmentsService {
 
     if (!appointments) {
       const provider = await this.userProviderAccountsRepository.findByUserId(
-        provider_id,
+        provider_user_id,
       );
 
       if (!provider) {
